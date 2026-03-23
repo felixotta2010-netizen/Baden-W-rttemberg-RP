@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Baden-Württemberg RP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<style>
+body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:linear-gradient(135deg,#0f172a,#020617);color:white;display:flex;flex-direction:column;align-items:center;padding:20px;}
+.header{text-align:center;margin-bottom:30px;}
+.header h1{font-size:48px;margin:0;}
+.header p{font-size:24px;color:#38bdf8;margin-top:5px;}
+.card{width:90%;max-width:500px;background:rgba(30,41,59,0.8);padding:25px;border-radius:20px;margin:15px 0;transition:0.3s;text-align:center;}
+.card:hover{transform:translateY(-5px);box-shadow:0 0 25px #38bdf8;}
+button{width:80%;font-size:20px;padding:15px;margin:10px 0;border:none;border-radius:12px;cursor:pointer;background:#38bdf8;font-weight:bold;}
+button:hover{background:#0ea5e9;}
+a{color:#38bdf8;text-decoration:none;font-size:20px;display:block;margin:5px;}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>Baden-Württemberg RP</h1>
+<p>Notruf Hamburg</p>
+</div>
+
+<div class="card">
+<h2>🎮 Spiel starten</h2>
+<button onclick="joinGame()">🚀 Join Server</button>
+<button onclick="copyCode()">📋 Code kopieren</button>
+<p id="code" style="font-size:22px;font-weight:bold;">ihxw99pt</p>
+</div>
+
+<div class="card">
+<h3>🌐 Community</h3>
+<button onclick="openDiscord()">💬 Discord</button>
+<a href="mods.html">Moderatoren</a>
+<a href="partner.html">Partner</a>
+</div>
+
+<div class="card">
+<h3>📝 Formulare</h3>
+<a href="bewerbung.html">➡ Bewerbung</a>
+<a href="entbannung.html">➡ Entbannung</a>
+</div>
+
+<div class="card">
+<a href="admin-login.html">🔑 Admin Panel</a>
+</div>
+
+<script>
+function joinGame(){ window.location.href="roblox://placeId=DEINE-ID"; }
+function copyCode(){ navigator.clipboard.writeText("ihxw99pt"); alert("Code kopiert!"); }
+function openDiscord(){ window.open("https://discord.gg/xUzHbSKRY"); }
+if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js");}
+</script>
+
+</body>
+</html>

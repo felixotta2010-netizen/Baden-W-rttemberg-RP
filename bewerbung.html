@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body style="background:#020617;color:white;font-family:Arial;text-align:center;padding:30px;">
+<h2 style="font-size:32px;">Bewerbung</h2>
+<input id="name" placeholder="Name" style="font-size:22px;padding:12px;width:80%;margin:10px;"><br>
+<input id="roblox" placeholder="Roblox Name" style="font-size:22px;padding:12px;width:80%;margin:10px;"><br>
+<textarea id="reason" placeholder="Warum willst du rein?" style="font-size:22px;padding:12px;width:80%;margin:10px;height:120px;"></textarea><br>
+<button onclick="send()" style="font-size:22px;padding:12px 25px;">Absenden</button>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
+firebase.initializeApp({databaseURL:"https://bw-rp-app-default-rtdb.europe-west1.firebasedatabase.app"});
+const db=firebase.database();
+function send(){
+  const n=document.getElementById("name").value;
+  const r=document.getElementById("roblox").value;
+  const rs=document.getElementById("reason").value;
+  if(!n||!r||!rs){alert("Alle Felder ausfüllen!");return;}
+  db.ref("bewerbungen").push({name:n,roblox:r,reason:rs,status:"Offen"}).then(()=>{alert("Gesendet!");document.getElementById("name").value="";document.getElementById("roblox").value="";document.getElementById("reason").value="";});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{background:linear-gradient(135deg,#0f172a,#020617);color:white;font-family:Arial;padding:20px;}
+h1{text-align:center;font-size:36px;}
+#adminName{text-align:center;font-size:22px;margin-bottom:20px;font-weight:bold;}
+.card{background:rgba(30,41,59,0.8);padding:20px;margin:15px;border-radius:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+.card div{font-size:20px;}
+button{padding:10px 15px;margin:5px;border:none;border-radius:10px;cursor:pointer;font-weight:bold;}
+.accept{background:#22c55e;color:white;}
+.reject{background:#ef4444;color:white;}
+.delete{background:#6b7280;color:white;}
+.logout{background:#f97316;color:white;margin-bottom:20px;padding:12px 25px;}
+</style>
+</head>
+<body>
+<h1>Admin Panel</h1>
+<p id="adminName"></p>
+<button class="logout" onclick="logout()">Logout</button>
+<div id="dataContainer"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
+const firebaseConfig = {databaseURL:"https://bw-rp-app-default-rtdb.europe-west1.firebasedatabase.app"};
+firebase.initializeApp(firebaseConfig);
+const db=firebase.database();
+
+if(localStorage.getItem("isAdmin")!=="true"){window.location.href="admin-login.html";}
+document.getElementById("adminName").innerText="Eingeloggt als: "+localStorage.getItem("adminName");
+function logout(){localStorage.clear();location.href="index.html";}
+
+function renderData(type){
+  db.ref(type).on("value",snap=>{
+    const container=document.getElementById("dataContainer");
+    container.innerHTML="";
+    const data=snap.val();
+    if(!data) return;
+    Object.keys(data).forEach(id=>{
+      const d=data[id];
+      const div=document.createElement("div");
+      div.className="card";
+      div.innerHTML=`<div>${d.name} (${d.roblox}) - ${d.status}</div>`;
+      const btns=document.createElement("div");
+      ["Angenommen","Abgelehnt"].forEach(s=>{
+        const b=document.createElement("button");
+        b.className=s==="Angenommen"?"accept":"reject";
+        b.innerText=s==="Angenommen"?"✔":"✖";
+        b.onclick=()=>db.ref(type+"/"+id).update({status:s});
+        btns.appendChild(b);
+      });
+      const del=document.createElement("button"); del.className="delete"; del.innerText="🗑"; del.onclick=()=>db.ref(type+"/"+id).remove();
+      btns.appendChild(del);
+      div.appendChild(btns);
+      container.appendChild(div);
+    });
+  });
+}
+renderData("bewerbungen");
+renderData("entbannungen");
+</script>
+</body>
+</html>
